@@ -1,0 +1,58 @@
+<!-- HTML <script> -->
+<script>
+    var initialized = false
+
+    if (!initialized) {
+        init()
+    }
+
+    function init() {
+        initialized = true
+        console.log('init')
+        // <- 'init'
+    }
+</script>
+
+<script>
+    if (initialized) {
+        console.log('was initialized!')
+        // <- 'was initialized!'
+    }
+
+    // 就連 init 都默默地變成全域變數
+    console.log('init' in window)
+    // <- true
+</script>
+
+
+<!-- Immediately Invoked Function Expressions (IIFE) -->
+<script>
+    (function () {
+        console.log('IIFE using parenthesis')
+        // <- 'IIFE using parenthesis'
+    })()
+    ~function () {
+        console.log('IIFE using a bitwise operator')
+        // <- 'IIFE using a bitwise operator'
+    }()
+    void function () {
+        console.log('IIFE using the void operator')
+        // <- 'IIFE using the void operator'
+    }()
+</script>
+
+
+<!-- IIFE 公開介面 -->
+<script>
+    void function () {
+        window.mathlib = window.mathlib || {}
+        window.mathlib.sum = sum
+
+        function sum(...values) {
+            return values.reduce((a, b) => a + b, 0)
+        }
+    }()
+
+    mathlib.sum(1, 2, 3)
+    // <- 6
+</script>
